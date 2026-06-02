@@ -1,0 +1,49 @@
+@model PortfolioManagementMvc.Models.TransactionModel
+
+@{
+    ViewData["Title"] = "İşlem Onayı";
+}
+
+<div class="glass-card" style="max-width:700px; margin:0 auto;">
+
+    <div class="success-banner">
+        <div class="success-icon">🎉</div>
+        <div class="success-title">Registration Successful!</div>
+        <p class="success-sub">İşleminiz başarıyla kaydedildi. Aşağıda kayıt detaylarınızı görebilirsiniz.</p>
+    </div>
+
+    <div class="detail-grid">
+        <div class="detail-item">
+            <div class="label">Yatırımcı Adı</div>
+            <div class="value">@Model.InvestorName</div>
+        </div>
+        <div class="detail-item">
+            <div class="label">Adet / Lot</div>
+            <div class="value">@Model.Quantity adet</div>
+        </div>
+        <div class="detail-item">
+            <div class="label">E-posta</div>
+            <div class="value">@Model.InvestorEmail</div>
+        </div>
+        <div class="detail-item">
+            <div class="label">Varlık Sembolü</div>
+            <div class="value" style="color:var(--accent);">@Model.Asset?.AssetSymbol</div>
+        </div>
+        <div class="detail-item" style="grid-column: 1 / -1;">
+            <div class="label">Varlık Adı</div>
+            <div class="value">@Model.Asset?.AssetName</div>
+        </div>
+    </div>
+
+    <div style="margin-top:2rem; display:flex; gap:.8rem; flex-wrap:wrap;">
+        <a asp-controller="Asset" asp-action="RegisterTransaction" class="btn-primary-custom">
+            + Yeni İşlem Yap
+        </a>
+        <a asp-controller="Asset" asp-action="TransactionsList" class="btn-secondary-custom">
+            📋 Portföyü Görüntüle
+        </a>
+        <a asp-controller="Asset" asp-action="Index" class="btn-secondary-custom">
+            ← Varlık Listesi
+        </a>
+    </div>
+</div>

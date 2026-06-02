@@ -1,0 +1,75 @@
+@model PortfolioManagementMvc.Models.TransactionModel
+
+@{
+    ViewData["Title"] = "Yatırım İşlemi";
+}
+
+<div class="page-header">
+    <h1>Yatırım İşlemi / Alım Kaydı</h1>
+    <p>Bilgilerinizi girin ve almak istediğiniz varlığı seçin.</p>
+</div>
+
+<div class="glass-card" style="max-width:640px;">
+
+    @if (!ViewData.ModelState.IsValid && ViewData.ModelState.ContainsKey(string.Empty))
+    {
+        <div class="validation-summary">
+            <ul>
+                @foreach (var error in ViewData.ModelState[string.Empty]!.Errors)
+                {
+                    <li>@error.ErrorMessage</li>
+                }
+            </ul>
+        </div>
+    }
+
+    <form asp-action="RegisterTransaction" method="post">
+        @Html.AntiForgeryToken()
+
+        <div class="form-group">
+            <label asp-for="InvestorName" class="form-label">Yatırımcı Adı</label>
+            <input asp-for="InvestorName"
+                   class="form-control-custom"
+                   placeholder="Adınızı ve soyadınızı giriniz" />
+            <span asp-validation-for="InvestorName" class="field-error text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="Quantity" class="form-label">Adet / Lot</label>
+            <input asp-for="Quantity"
+                   type="number"
+                   min="1"
+                   class="form-control-custom"
+                   placeholder="Kaç adet almak istiyorsunuz?" />
+            <span asp-validation-for="Quantity" class="field-error text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="InvestorEmail" class="form-label">E-posta Adresi</label>
+            <input asp-for="InvestorEmail"
+                   type="email"
+                   class="form-control-custom"
+                   placeholder="ornek@email.com" />
+            <span asp-validation-for="InvestorEmail" class="field-error text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="SelectedAssetId" class="form-label">Varlık Seçimi</label>
+            <select asp-for="SelectedAssetId"
+                    asp-items="ViewBag.AssetList"
+                    class="form-control-custom">
+                <option value="">-- Bir varlık seçiniz --</option>
+            </select>
+            <span asp-validation-for="SelectedAssetId" class="field-error text-danger"></span>
+        </div>
+
+        <div style="display:flex; gap:.8rem; margin-top:1.5rem;">
+            <button type="submit" class="btn-primary-custom">
+                ✓ &nbsp;İşlemi Kaydet
+            </button>
+            <a asp-controller="Asset" asp-action="Index" class="btn-secondary-custom">
+                ← Varlık Listesine Dön
+            </a>
+        </div>
+    </form>
+</div>

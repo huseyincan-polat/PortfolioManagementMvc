@@ -1,0 +1,87 @@
+@model IEnumerable<PortfolioManagementMvc.Models.AssetModel>
+
+@{
+    ViewData["Title"] = "Yatırım Araçları";
+}
+
+<div class="page-header">
+    <h1>Yatırım Araçları</h1>
+    <p>Mevcut varlıkları inceleyin ve portföyünüze eklemek için işlem yapın.</p>
+</div>
+
+<div class="glass-card">
+    <div class="search-bar">
+        <input type="text"
+               id="searchInput"
+               placeholder="Sembol veya isim ile ara... (örn: GARAN)"
+               oninput="filterTable()" />
+        <select class="sort-select" id="sortSelect" onchange="sortTable(this.value)">
+            <option value="">Varsayılan Sıralama</option>
+            <option value="symbol">Sembol A→Z</option>
+            <option value="symbol_desc">Sembol Z→A</option>
+            <option value="year">Hedef Yıl ↑</option>
+            <option value="year_desc">Hedef Yıl ↓</option>
+        </select>
+    </div>
+
+    <table class="styled-table" id="assetTable">
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>Sembol</th>
+                <th>Varlık Adı</th>
+                <th>Hedef Yıl</th>
+                <th>İşlem</th>
+            </tr>
+        </thead>
+        <tbody id="assetTableBody">
+            @foreach (var asset in Model)
+            {
+                <tr>
+                    <td>@asset.AssetId</td>
+                    <td><strong>@asset.AssetSymbol</strong></td>
+                    <td>@asset.AssetName</td>
+                    <td><span class="badge-year">@asset.TargetYear</span></td>
+                    <td>
+                        <a asp-controller="Asset"
+                           asp-action="RegisterTransaction"
+                           asp-route-assetId="@asset.AssetId"
+                           class="btn-primary-custom">
+                            💰 İşlem Yap / Satın Al
+                        </a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+    <div id="noResult" style="display:none; text-align:center; padding:2rem; color:var(--text-muted);">
+        Arama kriterine uyan varlık bulunamadı.
+    </div>
+</div>
+
+@section Scripts {
+<script>
+    function filterTable() {
+        const query = document.getElementById('searchInput').value.toLowerCase();
+        const rows  = document.querySelectorAll('#assetTableBody tr');
+        let visible = 0;
+
+        rows.forEach(row => {
+            const symbol = row.cells[1]?.textContent.toLowerCase() || '';
+            const name   = row.cells[2]?.textContent.toLowerCase() || '';
+            const match  = symbol.includes(query) || name.includes(query);
+            row.style.display = match ? '' : 'none';
+            if (match) visible++;
+        });
+
+        document.getElementById('noResult').style.display = visible === 0 ? 'block' : 'none';
+    }
+
+    function sortTable(value) {
+        const params = new URLSearchParams();
+        if (value) params.set('sort', value);
+        window.location.href = '/Asset/Index?' + params.toString();
+    }
+</script>
+}
