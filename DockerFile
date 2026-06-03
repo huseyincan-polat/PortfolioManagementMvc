@@ -1,0 +1,15 @@
+# 1. Derleme Aşaması (SDK)
+FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
+WORKDIR /src
+COPY ["PortfolioManagementMvc.csproj", "./"]
+RUN dotnet restore "./PortfolioManagementMvc.csproj"
+COPY . .
+RUN dotnet publish "PortfolioManagementMvc.csproj" -c Release -o /app/publish
+
+# 2. Çalışma Aşaması (Runtime)
+FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS final
+WORKDIR /app
+COPY --from=build /app/publish .
+ENV ASPNETCORE_URLS=http://+:10000
+EXPOSE 10000
+ENTRYPOINT ["dotnet", "PortfolioManagementMvc.dll"]
