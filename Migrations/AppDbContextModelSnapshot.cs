@@ -30,6 +30,12 @@ namespace PortfolioManagementMvc.Migrations
                         .IsRequired()
                         .HasColumnType("TEXT");
 
+                    b.Property<decimal>("CurrentPrice")
+                        .HasColumnType("TEXT");
+
+                    b.Property<decimal>("Forecast2028")
+                        .HasColumnType("TEXT");
+
                     b.Property<int>("TargetYear")
                         .HasColumnType("INTEGER");
 
@@ -43,6 +49,8 @@ namespace PortfolioManagementMvc.Migrations
                             AssetId = 1,
                             AssetName = "Garanti Bankasi",
                             AssetSymbol = "GARAN",
+                            CurrentPrice = 0m,
+                            Forecast2028 = 0m,
                             TargetYear = 2028
                         },
                         new
@@ -50,6 +58,8 @@ namespace PortfolioManagementMvc.Migrations
                             AssetId = 2,
                             AssetName = "Darphane Altin Sertifikasi",
                             AssetSymbol = "ALTINS1",
+                            CurrentPrice = 0m,
+                            Forecast2028 = 0m,
                             TargetYear = 2028
                         },
                         new
@@ -57,6 +67,8 @@ namespace PortfolioManagementMvc.Migrations
                             AssetId = 3,
                             AssetName = "Anadolu Sigorta",
                             AssetSymbol = "ANSGR",
+                            CurrentPrice = 0m,
+                            Forecast2028 = 0m,
                             TargetYear = 2027
                         });
                 });

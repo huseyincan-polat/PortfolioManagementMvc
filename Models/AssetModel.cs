@@ -17,5 +17,8 @@ namespace PortfolioManagementMvc.Models
         public int TargetYear { get; set; }
 
         public ICollection<TransactionModel> Transactions { get; set; } = new List<TransactionModel>();
+
+        public decimal CurrentPrice { get; set; }
+        public decimal Forecast2028 { get; set; }
     }
 }
